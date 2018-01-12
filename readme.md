@@ -2,6 +2,8 @@
 
 **因天地伟业SDK限制, 只支持IE浏览器**
 
+**`Swallow.cab` 须与 \*.html 在同一目录下**
+
 ## 原理
 读取 `config.js` 中的 `videoConfigMap` 作为配置文件,  使用 `Vue` 组件创建视频窗口
 
