@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Custom widgets with Vue - 4.6</title>
+    <link href="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://js.arcgis.com/4.6/esri/css/main.css">
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+    <script>
+        var locationPath = location.pathname.replace(/\/[^\/]+$/, "");
+        window.dojoConfig = {
+            packages: [
+                {
+                    name: "vue",
+                    location: "https://cdn.bootcss.com/vue/2.5.13/",
+                    main: "vue"
+                }, {
+                    name: "semantic",
+                    location: "https://cdn.bootcss.com/semantic-ui/2.2.13/",
+                    main: "semantic.min"
+                }, {
+                    name: "jquery",
+                    location: "https://cdn.bootcss.com/jquery/1.12.3/",
+                    main: "jquery.min"
+                },
+                {
+                    name: "js",
+                    location: locationPath + "/js"
+                }
+
+            ]
+        };
+    </script>
+    <script src="https://js.arcgis.com/4.6"></script>
+    <script>
+        require([
+            "esri/Map",
+            "esri/views/MapView",
+            "vue",
+            "jquery",
+            "semantic",
+            // 引入config.js
+            "js/config",
+            "js/tdvideo_oem",
+            "dojo/domReady!"
+        ], function (Map, MapView,
+                     Vue) {
+
+            var map = new Map({
+                basemap: "osm"
+            });
+
+            var view = new MapView({
+                container: "viewDiv",
+                center: [103, 32],
+                zoom: 9,
+                map: map
+            });
+
+           
+
+            //---------------------------------------------------------
+            //  组装视频组件模板
+            // ---------------------------------------------------------
+            var btnString = '<div>';
+            btnString += '<div class="ui buttons">';
+            // 获取配置文文件信息
+            videoConfigMap.map(function (station) {
+                btnString += '<button class="ui button" @click="startVideos" name="' + station.videoStationName + '" >' + station.videoStationName + '</button>';
+            });
+            btnString += "</div>";
+
+
+            var videoObject = [
+                "<div>",
+                "<object",
+                " classid='clsid:F4986929-536B-40A8-9398-7CEE72DBA480'",
+                " codebase='Swallow.cab#version=3,2,0,3'",
+                " name='TiandyVideo'",
+                "width='100%'",
+                "height='500'",
+                "id='TiandyVideo'>",
+                "</object>",
+                "</div>"
+            ].join("");
+            btnString += videoObject;
+
+
+            btnString += "<div class=\"ui info message\">\n" +
+                "  <i @click=\"closeInfo\" class=\"close icon\"></i>\n" +
+                "  <div class=\"header\">看不到视频?</div>\n" +
+                "  <ul class=\"list\">\n" +
+                "    <li>请下载并安装天地伟业的视频组件 <a href='http://t.cn/RHTw42u'>点我下载</a></li>\n" +
+                "    <li>请使用 IE9 及以上浏览器(视频监控功能仅支持IE浏览器)</li>\n" +
+                "  </ul>\n" +
+                "</div>";
+
+            btnString += "</div>";
+
+
+            //---------------------------------------------------------
+            //  创建vue组件
+            // ---------------------------------------------------------
+            Vue.component("tiandy-btn", {
+                // template: "<button>就是一个按钮</button>"
+                template: btnString,
+                methods: {
+                    startVideos: function (e) {
+                        //关闭之前的打开视频窗口
+                        closeAllObs();
+                        videoConfigMap.map(function (station) {
+                            // 判断点击按钮的name
+                            if (e.target.name === station.videoStationName) {
+                                station.videoIndex.map(function (camera) {
+                                    // 连接录像机开启视频
+                                    StartVideo("", station.videoIP, "admin", "1111", 3000, camera.id, 1);
+                                });
+                            }
+                        });
+                        // console.log(e.target.name);
+                    },
+                    closeInfo: function () {
+                        $('.message').closest('.message')
+                            .transition('fade')
+                        ;
+                    }
+                }
+            });
+            var tiandyBtn = new Vue({
+                el: "#video_btn",
+                data: {
+                    isHidden: true
+                }
+            });
+            view.ui.add(tiandyBtn.$el, "top-right");
+
+        });
+    </script>
+</head>
+
+<body>
+<div id="video_btn" class="esri-widget">
+    <tiandy-btn></tiandy-btn>
+</div>
+
+<div id="viewDiv"></div>
+</body>
+</html>
