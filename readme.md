@@ -50,4 +50,7 @@ var videoConfigMap =
 
  ![image](http://p198u5nbd.bkt.clouddn.com/jpg/2018/1/12/a7681b176ebc0120e91116d274e2977a.jpg)
 
+ 不知道为啥这个图片到github上加载不出来, 点下面链接自己看吧.
+ [http://p198u5nbd.bkt.clouddn.com/jpg/2018/1/12/a7681b176ebc0120e91116d274e2977a.jpg](http://p198u5nbd.bkt.clouddn.com/jpg/2018/1/12/a7681b176ebc0120e91116d274e2977a.jpg)
+
  ![image](http://p198u5nbd.bkt.clouddn.com/jpg/2018/1/12/627adadab0b8911c626bb090ff374bcc.jpg)
