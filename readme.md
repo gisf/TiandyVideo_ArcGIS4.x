@@ -47,6 +47,7 @@ var videoConfigMap =
 }];
 ```
 
- ![image](http://p198u5nbd.bkt.clouddn.com/jpg/2018/1/12/627adadab0b8911c626bb090ff374bcc.jpg)
 
  ![image](http://p198u5nbd.bkt.clouddn.com/jpg/2018/1/12/a7681b176ebc0120e91116d274e2977a.jpg)
+
+ ![image](http://p198u5nbd.bkt.clouddn.com/jpg/2018/1/12/627adadab0b8911c626bb090ff374bcc.jpg)
